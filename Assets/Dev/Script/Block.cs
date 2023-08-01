@@ -32,9 +32,24 @@ public class Block : MonoBehaviour
         SetSprite(0);
     }
 
-    public void SetSprite(int id)
+    public void SetSprite(int linkCount)
     {
-        BlockSprite.sprite = blockSO.BlockSpriteList[id];
+        if (linkCount < 5)
+        {
+            BlockSprite.sprite = blockSO.BlockSpriteList[0];
+        }
+        else if (linkCount < 8)
+        {
+            BlockSprite.sprite = blockSO.BlockSpriteList[1];
+        }
+        else if (linkCount < 10)
+        {
+            BlockSprite.sprite = blockSO.BlockSpriteList[2];
+        }
+        else
+        {
+            BlockSprite.sprite = blockSO.BlockSpriteList[2];
+        }
     }
 
     public BlockSO GetBlockSO()
@@ -66,6 +81,8 @@ public class Block : MonoBehaviour
 
     public void SetLinkList(List<Block> _linklist)
     {
-        LinkList = _linklist;
+        LinkList.Clear();
+        LinkList.AddRange(_linklist);
+        SetSprite(_linklist.Count);
     }
 }

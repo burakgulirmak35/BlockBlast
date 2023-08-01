@@ -106,7 +106,7 @@ public class BoardManager : MonoBehaviour
                     {
                         foreach (Block block in linkedBlockPositionList)
                         {
-                            Destroy(block.gameObject, 1f);
+                            block.SetLinkList(linkedBlockPositionList);
                         }
                     }
                     else
@@ -120,7 +120,6 @@ public class BoardManager : MonoBehaviour
     }
 
     private List<Block> linkedBlockPositionList = new List<Block>();
-
     private void CheckMatch3Link(int x, int y)
     {
         if (BlockList[x, y].isLinked()) { return; }
