@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Yellow
   m_EditorClassIdentifier: 
   blockName: Yellow
-  Sprite_Default: {fileID: 21300000, guid: 28398b7ae9eb0f5449ba202ef41ec1dd, type: 3}
-  Sprite_A: {fileID: 21300000, guid: d23b811b885cbb44b83f150d737ce9a7, type: 3}
-  Sprite_B: {fileID: 21300000, guid: 4cf4af948ec6ef441bfc1e85631f4a2d, type: 3}
-  Sprite_C: {fileID: 21300000, guid: c7986d3dfb35ce246bb607c83eea375d, type: 3}
+  BlockSpriteList:
+  - {fileID: 21300000, guid: 28398b7ae9eb0f5449ba202ef41ec1dd, type: 3}
+  - {fileID: 21300000, guid: d23b811b885cbb44b83f150d737ce9a7, type: 3}
+  - {fileID: 21300000, guid: 4cf4af948ec6ef441bfc1e85631f4a2d, type: 3}
+  - {fileID: 21300000, guid: c7986d3dfb35ce246bb607c83eea375d, type: 3}

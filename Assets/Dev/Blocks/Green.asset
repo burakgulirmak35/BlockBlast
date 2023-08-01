@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Green
   m_EditorClassIdentifier: 
   blockName: Green
-  Sprite_Default: {fileID: 21300000, guid: d6eb58f3686733141bdc545272f9e93f, type: 3}
-  Sprite_A: {fileID: 21300000, guid: 1c926610bb68dd246bf85e04cb22ecf4, type: 3}
-  Sprite_B: {fileID: 21300000, guid: 8d3d638602e23c949a74ff13a921629e, type: 3}
-  Sprite_C: {fileID: 21300000, guid: 13a327517513db64b829b834a9af9afa, type: 3}
+  BlockSpriteList:
+  - {fileID: 21300000, guid: d6eb58f3686733141bdc545272f9e93f, type: 3}
+  - {fileID: 21300000, guid: 1c926610bb68dd246bf85e04cb22ecf4, type: 3}
+  - {fileID: 21300000, guid: 8d3d638602e23c949a74ff13a921629e, type: 3}
+  - {fileID: 21300000, guid: 13a327517513db64b829b834a9af9afa, type: 3}

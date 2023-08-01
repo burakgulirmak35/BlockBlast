@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Pink
   m_EditorClassIdentifier: 
   blockName: Pink
-  Sprite_Default: {fileID: 21300000, guid: 263c4b98bd026fd4bb39180f179a4e57, type: 3}
-  Sprite_A: {fileID: 21300000, guid: 5d038167303af8e438fa60c99fd01bdc, type: 3}
-  Sprite_B: {fileID: 21300000, guid: 6ed6b7b64c74dfb43b9e41d621779001, type: 3}
-  Sprite_C: {fileID: 21300000, guid: a2d3725a1e36e474db315e8649a3dc5b, type: 3}
+  BlockSpriteList:
+  - {fileID: 21300000, guid: 263c4b98bd026fd4bb39180f179a4e57, type: 3}
+  - {fileID: 21300000, guid: 5d038167303af8e438fa60c99fd01bdc, type: 3}
+  - {fileID: 21300000, guid: 6ed6b7b64c74dfb43b9e41d621779001, type: 3}
+  - {fileID: 21300000, guid: a2d3725a1e36e474db315e8649a3dc5b, type: 3}

@@ -152,6 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce882d627f9a5c648ae1941ac9060072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pfBlockGrid: {fileID: 9172145241263933870, guid: c2e29d6d0ddbf64438ae9e97e90d0e8f, type: 3}
+  pfBackgroundGrid: {fileID: 4475699381534582891, guid: 0f7247793e60d1d428d47afe5297b97a, type: 3}
+  levelList:
+  - {fileID: 11400000, guid: 83fa8ba17bbcd7047afc78b4eef47b95, type: 2}
+  - {fileID: 11400000, guid: 75b7ae53c89447c438e118d048e57a51, type: 2}
+  - {fileID: 11400000, guid: 0dcbb5d79e18b5b4696e83664b1b42fa, type: 2}
+  - {fileID: 11400000, guid: 7f9c02aaccbbfd245aaa5e48c765b857, type: 2}
 --- !u!4 &30730236
 Transform:
   m_ObjectHideFlags: 0
@@ -217,7 +224,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -254,7 +261,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -484,7 +491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1450733912
 Transform:
   m_ObjectHideFlags: 0

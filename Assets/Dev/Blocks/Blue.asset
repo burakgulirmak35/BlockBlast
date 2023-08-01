@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Blue
   m_EditorClassIdentifier: 
   blockName: Blue
-  Sprite_Default: {fileID: 21300000, guid: 4f93bd497b583eb4bbf0395f35ab4bd5, type: 3}
-  Sprite_A: {fileID: 21300000, guid: 1c926610bb68dd246bf85e04cb22ecf4, type: 3}
-  Sprite_B: {fileID: 21300000, guid: 8d3d638602e23c949a74ff13a921629e, type: 3}
-  Sprite_C: {fileID: 21300000, guid: 13a327517513db64b829b834a9af9afa, type: 3}
+  BlockSpriteList:
+  - {fileID: 21300000, guid: 4f93bd497b583eb4bbf0395f35ab4bd5, type: 3}
+  - {fileID: 21300000, guid: 8e8e057c7c50133458f69753ea65e2e5, type: 3}
+  - {fileID: 21300000, guid: f0533ca2e0e29a64c996a0e7aa0463ee, type: 3}
+  - {fileID: 21300000, guid: 9db17b0faae90994d9d494fbbe699037, type: 3}

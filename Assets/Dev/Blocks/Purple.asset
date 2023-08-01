@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Purple
   m_EditorClassIdentifier: 
   blockName: Purple
-  Sprite_Default: {fileID: 21300000, guid: a2e07d2246d686e4b8356be3eaf4044e, type: 3}
-  Sprite_A: {fileID: 21300000, guid: 551ad46b8fb579840b0d231cbdf1b2d9, type: 3}
-  Sprite_B: {fileID: 21300000, guid: 670de58f9f00e16448f11abe77ca4447, type: 3}
-  Sprite_C: {fileID: 21300000, guid: a190c4c7868b8674d91799f7a4962a8c, type: 3}
+  BlockSpriteList:
+  - {fileID: 21300000, guid: a2e07d2246d686e4b8356be3eaf4044e, type: 3}
+  - {fileID: 21300000, guid: 551ad46b8fb579840b0d231cbdf1b2d9, type: 3}
+  - {fileID: 21300000, guid: 670de58f9f00e16448f11abe77ca4447, type: 3}
+  - {fileID: 21300000, guid: a190c4c7868b8674d91799f7a4962a8c, type: 3}
