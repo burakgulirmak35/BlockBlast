@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] private int FallingSpeed;
     [SerializeField] private SpriteRenderer BlockSprite;
     private BlockSO blockSO;
     private List<Sprite> BlockSpriteList = new List<Sprite>();

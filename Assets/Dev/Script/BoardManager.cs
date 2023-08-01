@@ -100,11 +100,24 @@ public class BoardManager : MonoBehaviour
         {
             for (int height = 0; height < boardHeight; height++)
             {
-                if (GridList[width, height].isEmpty())
+                if (GridList[width, height].isEmpty() && IsValidPosition(width, height + 1))
                 {
-
+                    for (int y = height + 1; y < boardHeight; y++)
+                    {
+                        if (!GridList[width, y].isEmpty())
+                        {
+                            GridList[width, height].SetBlock(GridList[width, y].GetBlock());
+                            GridList[width, y].Clear();
+                            break;
+                        }
+                    }
                 }
             }
+        }
+
+        foreach (Grid grid in GridList)
+        {
+            grid.FallBlock();
         }
     }
 

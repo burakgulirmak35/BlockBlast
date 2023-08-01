@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class Grid : MonoBehaviour
 {
+    [SerializeField] private float BlockFallingSpeed;
     private Block block;
     private int xPos, yPos;
     private bool linked;
@@ -57,6 +58,11 @@ public class Grid : MonoBehaviour
         return block == null;
     }
 
+    public void Clear()
+    {
+        block = null;
+    }
+
     private List<Grid> LinkList = new List<Grid>();
     public void SetLinkList(List<Grid> _linklist)
     {
@@ -77,16 +83,9 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public void Fall()
+    public void FallBlock()
     {
-        /*
-        if (BoardManager.Instance.IsValidMove(xPos, yPos - 1))
-        {
-            SetPos(xPos, yPos - 1);
-            transform.DOMoveY(yPos, FallingSpeed).OnComplete(() => Fall());
-            return;
-        }
-        */
+        transform.DOMoveY(yPos, BlockFallingSpeed * (block.transform.position.y - yPos));
     }
-
 }
+
