@@ -14,4 +14,6 @@ public enum State
 public class GameManager : MonoBehaviour
 {
 
+
+
 }

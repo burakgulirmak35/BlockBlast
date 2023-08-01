@@ -1,28 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] private int FallingSpeed;
     [SerializeField] private SpriteRenderer BlockSprite;
-
     private BlockSO blockSO;
     private List<Sprite> BlockSpriteList = new List<Sprite>();
     private Animator BlockAnim;
-    private float xPos, yPos;
-    private bool linked;
-    private List<Block> LinkList = new List<Block>();
+    private int xPos, yPos;
+    private Grid myGrid;
 
     private void Awake()
     {
         BlockAnim = GetComponent<Animator>();
-    }
-
-    public void SetPos(float _x, float _y)
-    {
-        xPos = _x;
-        yPos = _y;
     }
 
     public void SetBlock(BlockSO _blockSO)
@@ -57,32 +49,8 @@ public class Block : MonoBehaviour
         return blockSO;
     }
 
-    private void OnMouseDown()
+    public void Shake()
     {
-        if (linked)
-        {
-            BoardManager.Instance.PopLink(LinkList);
-        }
-        else
-        {
-            BlockAnim.Play("Shake");
-        }
-    }
-
-    public void SetLink(bool state)
-    {
-        linked = state;
-    }
-
-    public bool isLinked()
-    {
-        return linked;
-    }
-
-    public void SetLinkList(List<Block> _linklist)
-    {
-        LinkList.Clear();
-        LinkList.AddRange(_linklist);
-        SetSprite(_linklist.Count);
+        BlockAnim.Play("Shake");
     }
 }

@@ -6,21 +6,21 @@ public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance { get; private set; }
 
-    [SerializeField] private Transform pfBlockGrid;
-    [SerializeField] private Transform pfBackgroundGrid;
-
+    [SerializeField] private Transform pfGrid;
     [SerializeField] private List<LevelSO> levelList;
-    [SerializeField] private Block[,] BlockList;
+    [SerializeField] private Grid[,] GridList;
 
     private int boardWidth;
     private int boardHeight;
     private int score;
     private int moveCount;
     private LevelSO levelSO;
+    private PoolManager pool;
 
     private void Awake()
     {
         Instance = this;
+        pool = GetComponent<PoolManager>();
         SetLevelSO(levelList[PlayerPrefs.GetInt("Level", 0)]);
         Setup();
     }
@@ -30,7 +30,8 @@ public class BoardManager : MonoBehaviour
         levelSO = _levelSO;
         boardWidth = levelSO.width;
         boardHeight = levelSO.height;
-        BlockList = new Block[boardWidth, boardHeight];
+        GridList = new Grid[boardWidth, boardHeight];
+        pool.GenerateBlockPool(boardWidth * boardHeight * 2);
     }
 
     private void Setup()
@@ -49,15 +50,16 @@ public class BoardManager : MonoBehaviour
 
     private void CreateGrid(int xPos, int yPos)
     {
-        GameObject new_Grid = Instantiate(pfBackgroundGrid, new Vector2(xPos, yPos), Quaternion.identity, transform).gameObject;
+        GridList[xPos, yPos] = Instantiate(pfGrid, new Vector2(xPos, yPos), Quaternion.identity, transform).GetComponent<Grid>();
     }
 
     private void CreateBlock(int xPos, int yPos)
     {
-        Block newBlock = Instantiate(pfBlockGrid, new Vector2(xPos, yPos), Quaternion.identity, transform).GetComponent<Block>();
-        newBlock.SetPos(xPos, yPos);
+        Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
+        newBlock.transform.position = new Vector2(xPos, yPos);
         newBlock.SetBlock(GetRandomBlock());
-        BlockList[xPos, yPos] = newBlock;
+        GridList[xPos, yPos].SetBlock(newBlock);
+        newBlock.gameObject.SetActive(true);
     }
 
     private BlockSO GetRandomBlock()
@@ -68,63 +70,78 @@ public class BoardManager : MonoBehaviour
 
     private void SpawnNewBlock(int xPos)
     {
-        Block newBlock = Instantiate(pfBlockGrid, new Vector2(xPos, boardHeight), Quaternion.identity, transform).GetComponent<Block>();
+        Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
+        newBlock.transform.position = new Vector2(xPos, boardHeight + 1);
         newBlock.SetBlock(GetRandomBlock());
-        for (int height = 0; height < BlockList.GetLength(1); height++)
+        for (int height = 0; height < GridList.GetLength(1); height++)
         {
-            if (BlockList[xPos, height] == null)
+            if (GridList[xPos, height].isEmpty())
             {
-                BlockList[xPos, height] = newBlock;
-                newBlock.SetPos(xPos, height);
+                GridList[xPos, height].SetBlock(newBlock);
                 break;
+            }
+        }
+        newBlock.gameObject.SetActive(true);
+    }
+
+    //-------------------------------------
+
+    public void PopLink(List<Grid> _linkList)
+    {
+        foreach (Grid item in _linkList)
+        {
+            item.PopBlock();
+        }
+    }
+
+    public void ReplaceBlocks()
+    {
+        for (int width = 0; width < boardWidth; width++)
+        {
+            for (int height = 0; height < boardHeight; height++)
+            {
+                if (GridList[width, height].isEmpty())
+                {
+
+                }
             }
         }
     }
 
     //-------------------------------------
 
-    public void PopLink(List<Block> _linkList)
-    {
-        foreach (Block item in _linkList)
-        {
-            Destroy(item.gameObject);
-        }
-    }
-
-    //-------------------------------------
-
+    private List<Grid> linkedGridList = new List<Grid>();
     private void CheckAllMatch3Links()
     {
         for (int x = 0; x < boardWidth; x++)
         {
             for (int y = 0; y < boardHeight; y++)
             {
-                if (!BlockList[x, y].isLinked())
+                if (!GridList[x, y].isLinked())
                 {
+                    linkedGridList.Clear();
                     CheckMatch3Link(x, y);
-                    if (linkedBlockPositionList.Count > 1)
+                    if (linkedGridList.Count > 1)
                     {
-                        foreach (Block block in linkedBlockPositionList)
+                        foreach (Grid grid in linkedGridList)
                         {
-                            block.SetLinkList(linkedBlockPositionList);
+                            grid.SetLinkList(linkedGridList);
                         }
                     }
                     else
                     {
-                        linkedBlockPositionList[0].SetLink(false);
+                        linkedGridList[0].SetLink(false);
                     }
-                    linkedBlockPositionList.Clear();
                 }
             }
         }
     }
 
-    private List<Block> linkedBlockPositionList = new List<Block>();
     private void CheckMatch3Link(int x, int y)
     {
-        if (BlockList[x, y].isLinked()) { return; }
-        BlockList[x, y].SetLink(true);
-        linkedBlockPositionList.Add(BlockList[x, y]);
+        if (GridList[x, y].isLinked()) { return; }
+        GridList[x, y].SetLink(true);
+        linkedGridList.Add(GridList[x, y]);
 
         BlockSO blockSO = GetBlockSO(x, y);
 
@@ -147,7 +164,6 @@ public class BoardManager : MonoBehaviour
         {
             CheckMatch3Link(x, y - 1);
         }
-
     }
 
     private bool IsValidPosition(int x, int y)
@@ -162,11 +178,26 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private BlockSO GetBlockSO(int x, int y)
+    public bool IsValidMove(int x, int y)
     {
-        return BlockList[x, y].GetBlockSO();
+        if (x < 0 || y < 0 || x >= boardWidth || y >= boardHeight)
+        {
+            return false;
+        }
+        else if (GridList[x, y].isEmpty())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
+    private BlockSO GetBlockSO(int x, int y)
+    {
+        return GridList[x, y].GetBlock().GetBlockSO();
+    }
 
     //-----------------
 }

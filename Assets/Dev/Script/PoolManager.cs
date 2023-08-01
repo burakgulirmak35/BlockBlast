@@ -6,22 +6,43 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance { get; private set; }
 
-    [Header("DamageText")]
-    [SerializeField] private Transform pfBlockGrid;
+    [Header("Block")]
+    [SerializeField] private GameObject pfBlock;
+    [SerializeField] private Transform BlockHolder;
     private Queue<GameObject> blockPool = new Queue<GameObject>();
+    private GameObject tempObject;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void GeneratePool(GameObject prefab, int count, Queue<GameObject> pool, Transform holder)
+    public void GenerateBlockPool(int amount)
     {
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < amount; i++)
         {
-            // tempObject = Instantiate(prefab, holder);
-            // tempObject.SetActive(false);
-            // pool.Enqueue(tempObject);
+            tempObject = Instantiate(pfBlock, BlockHolder);
+            tempObject.SetActive(false);
+            blockPool.Enqueue(tempObject);
         }
     }
+
+    public GameObject GetFromPool(PoolTypes type)
+    {
+        switch (type)
+        {
+            case PoolTypes.BlockPool:
+                tempObject = blockPool.Dequeue();
+                blockPool.Enqueue(tempObject);
+                return tempObject;
+            default:
+                tempObject = null;
+                return tempObject;
+        }
+    }
+}
+
+public enum PoolTypes
+{
+    BlockPool,
 }
