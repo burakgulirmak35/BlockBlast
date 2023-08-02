@@ -703,7 +703,7 @@ RectTransform:
   - {fileID: 1986565755}
   - {fileID: 1904442162}
   m_Father: {fileID: 1310395812}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 749676840}
   - component: {fileID: 749676839}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1108,6 +1108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a0c7478c737184db20b5f0fddd81ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt_Goal: {fileID: 1656368079}
+  txt_Moves: {fileID: 1719767786}
+  txt_Score: {fileID: 1986565756}
+  panel_Settings: {fileID: 0}
 --- !u!1 &1201762254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,8 +1278,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1900844420}
-  - {fileID: 1526622798}
   - {fileID: 741327526}
+  - {fileID: 1526622798}
   m_Father: {fileID: 577432424}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1541,7 +1545,7 @@ RectTransform:
   - {fileID: 1719767785}
   - {fileID: 1842453154}
   m_Father: {fileID: 1310395812}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2089,7 +2093,7 @@ GameObject:
   - component: {fileID: 1842453156}
   - component: {fileID: 1842453155}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2244,7 +2248,7 @@ GameObject:
   - component: {fileID: 1904442164}
   - component: {fileID: 1904442163}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
