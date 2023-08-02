@@ -5,6 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer BlockSprite;
+    [SerializeField]
     private BlockSO blockSO;
     private List<Sprite> BlockSpriteList = new List<Sprite>();
     private Animator BlockAnim;
@@ -41,9 +42,20 @@ public class Block : MonoBehaviour
         }
     }
 
+    public Animator GetAnimator()
+    {
+        return BlockAnim;
+    }
+
     public BlockSO GetBlockSO()
     {
         return blockSO;
+    }
+
+    public void DisableObject()
+    {
+        //animation event
+        gameObject.SetActive(false);
     }
 
     public void Shake()

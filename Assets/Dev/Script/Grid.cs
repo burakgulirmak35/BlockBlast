@@ -45,7 +45,8 @@ public class Grid : MonoBehaviour
     public void PopBlock()
     {
         if (isEmpty()) { return; }
-        block.gameObject.SetActive(false);
+        block.GetAnimator().Play("Pop");
+        SoundManager.Instance.PlaySound(SoundName.PopSound);
         PoolManager.Instance.PutBackToPool(PoolTypes.BlockPool, block.gameObject);
         block = null;
     }
@@ -95,7 +96,7 @@ public class Grid : MonoBehaviour
     public void FallBlock()
     {
         if (isEmpty()) { return; }
-        block.transform.DOMove(transform.position, BlockFallingSpeed * (block.transform.position.y - transform.position.y)).SetEase(Ease.Linear);
+        block.transform.DOMove(transform.position, BlockFallingSpeed * Mathf.Abs(block.transform.position.y - transform.position.y)).SetEase(Ease.Linear);
     }
 
 }

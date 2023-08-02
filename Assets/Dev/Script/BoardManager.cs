@@ -68,11 +68,11 @@ public class BoardManager : MonoBehaviour
         return levelSO.BlockList[rnd];
     }
 
-    private Block SpawnNewBlock(int x, int y)
+    private Block SpawnNewBlock(int x, int y, Vector3 offset)
     {
         Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
         newBlock.SetBlockSO(GetRandomBlock());
-        newBlock.transform.position = GridList[x, y].transform.position + new Vector3(0, 1, 0);
+        newBlock.transform.position = GridList[x, y].transform.position + offset;
         newBlock.gameObject.SetActive(true);
         return newBlock;
     }
@@ -81,31 +81,40 @@ public class BoardManager : MonoBehaviour
 
     public void PopLink(List<Grid> _linkList)
     {
+        StartCoroutine(PopLinkTimer(_linkList));
+    }
+
+    private IEnumerator PopLinkTimer(List<Grid> _linkList)
+    {
         foreach (Grid item in _linkList)
         {
             item.PopBlock();
+            yield return new WaitForSeconds(0.1f);
         }
+        yield return new WaitForSeconds(0.2f);
         ReplaceBlocks();
         MoveBlocks();
-        StartCoroutine(Timer());
+        yield return new WaitForSeconds(.2f);
+        SpawnNewBlocks();
+        MoveBlocks();
+        yield return new WaitForSeconds(.4f);
+        CheckAllMatch3Links();
     }
 
-    private IEnumerator Timer()
+    private void SpawnNewBlocks()
     {
-        yield return new WaitForSeconds(.2f);
         for (int x = 0; x < boardWidth; x++)
         {
+            int emptyBlockCount = 0;
             for (int y = 0; y < boardHeight; y++)
             {
                 if (GridList[x, y].isEmpty())
                 {
-                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1));
+                    emptyBlockCount++;
+                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1, new Vector3(0, emptyBlockCount, 0)));
                 }
             }
         }
-        MoveBlocks();
-        yield return new WaitForSeconds(.4f);
-        CheckAllMatch3Links();
     }
 
     public void ReplaceBlocks()
