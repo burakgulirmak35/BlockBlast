@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum State
+{
+    Setup,
+    Busy,
+    WaitingForUser,
+}
+
 public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance { get; private set; }
-
     [SerializeField] private Transform pfGrid;
     [SerializeField] private List<LevelSO> levelList;
     [SerializeField] private Grid[,] GridList;
@@ -14,11 +20,14 @@ public class BoardManager : MonoBehaviour
     private int boardHeight;
     private int score;
     private int moveCount;
+
     private LevelSO levelSO;
     private PoolManager pool;
 
+    [HideInInspector] public State state;
     private void Awake()
     {
+        state = State.Setup;
         Instance = this;
         pool = GetComponent<PoolManager>();
         SetLevelSO(levelList[PlayerPrefs.GetInt("Level", 0)]);
@@ -46,6 +55,7 @@ public class BoardManager : MonoBehaviour
         }
         transform.position = new Vector2(-(boardWidth / 2f), -(boardHeight / 2f));
         CheckAllMatch3Links();
+        state = State.WaitingForUser;
     }
 
     private void CreateGrid(int xPos, int yPos)
@@ -86,6 +96,7 @@ public class BoardManager : MonoBehaviour
 
     private IEnumerator PopLinkTimer(List<Grid> _linkList)
     {
+        state = State.Busy;
         foreach (Grid item in _linkList)
         {
             item.PopBlock();
@@ -99,6 +110,7 @@ public class BoardManager : MonoBehaviour
         MoveBlocks();
         yield return new WaitForSeconds(.4f);
         CheckAllMatch3Links();
+        state = State.WaitingForUser;
     }
 
     private void SpawnNewBlocks()

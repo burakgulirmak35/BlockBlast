@@ -83,6 +83,7 @@ public class Grid : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!BoardManager.Instance.state.Equals(State.WaitingForUser)) { Debug.Log("BoardBusy"); return; }
         if (isLinked())
         {
             BoardManager.Instance.PopLink(LinkList);
