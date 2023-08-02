@@ -57,7 +57,7 @@ public class BoardManager : MonoBehaviour
     {
         Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
         newBlock.transform.position = new Vector2(xPos, yPos);
-        newBlock.SetBlock(GetRandomBlock());
+        newBlock.SetBlockSO(GetRandomBlock());
         GridList[xPos, yPos].SetBlock(newBlock);
         newBlock.gameObject.SetActive(true);
     }
@@ -68,20 +68,13 @@ public class BoardManager : MonoBehaviour
         return levelSO.BlockList[rnd];
     }
 
-    private void SpawnNewBlock(int xPos)
+    private Block SpawnNewBlock(int x, int y)
     {
         Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
-        newBlock.transform.position = new Vector2(xPos, boardHeight + 1);
-        newBlock.SetBlock(GetRandomBlock());
-        for (int height = 0; height < GridList.GetLength(1); height++)
-        {
-            if (GridList[xPos, height].isEmpty())
-            {
-                GridList[xPos, height].SetBlock(newBlock);
-                break;
-            }
-        }
+        newBlock.SetBlockSO(GetRandomBlock());
+        newBlock.transform.position = GridList[x, y].transform.position + new Vector3(0, 1, 0);
         newBlock.gameObject.SetActive(true);
+        return newBlock;
     }
 
     //-------------------------------------
@@ -92,29 +85,53 @@ public class BoardManager : MonoBehaviour
         {
             item.PopBlock();
         }
+        ReplaceBlocks();
+        MoveBlocks();
+        StartCoroutine(Timer());
+    }
+
+    private IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(.2f);
+        for (int x = 0; x < boardWidth; x++)
+        {
+            for (int y = 0; y < boardHeight; y++)
+            {
+                if (GridList[x, y].isEmpty())
+                {
+                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1));
+                }
+            }
+        }
+        MoveBlocks();
+        yield return new WaitForSeconds(.4f);
+        CheckAllMatch3Links();
     }
 
     public void ReplaceBlocks()
     {
-        for (int width = 0; width < boardWidth; width++)
+        for (int x = 0; x < boardWidth; x++)
         {
-            for (int height = 0; height < boardHeight; height++)
+            for (int y = 0; y < boardHeight; y++)
             {
-                if (GridList[width, height].isEmpty() && IsValidPosition(width, height + 1))
+                if (GridList[x, y].isEmpty())
                 {
-                    for (int y = height + 1; y < boardHeight; y++)
+                    for (int i = y; i < boardHeight; i++)
                     {
-                        if (!GridList[width, y].isEmpty())
+                        if (!GridList[x, i].isEmpty())
                         {
-                            GridList[width, height].SetBlock(GridList[width, y].GetBlock());
-                            GridList[width, y].Clear();
+                            GridList[x, y].SetBlock(GridList[x, i].GetBlock());
+                            GridList[x, i].Clear();
                             break;
                         }
                     }
                 }
             }
         }
+    }
 
+    private void MoveBlocks()
+    {
         foreach (Grid grid in GridList)
         {
             grid.FallBlock();
@@ -126,6 +143,11 @@ public class BoardManager : MonoBehaviour
     private List<Grid> linkedGridList = new List<Grid>();
     private void CheckAllMatch3Links()
     {
+        foreach (Grid grid in GridList)
+        {
+            grid.ClearLink();
+        }
+
         for (int x = 0; x < boardWidth; x++)
         {
             for (int y = 0; y < boardHeight; y++)
@@ -149,6 +171,7 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
 
     private void CheckMatch3Link(int x, int y)
     {

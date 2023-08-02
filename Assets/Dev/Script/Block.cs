@@ -8,15 +8,13 @@ public class Block : MonoBehaviour
     private BlockSO blockSO;
     private List<Sprite> BlockSpriteList = new List<Sprite>();
     private Animator BlockAnim;
-    private int xPos, yPos;
-    private Grid myGrid;
 
     private void Awake()
     {
         BlockAnim = GetComponent<Animator>();
     }
 
-    public void SetBlock(BlockSO _blockSO)
+    public void SetBlockSO(BlockSO _blockSO)
     {
         blockSO = _blockSO;
         BlockSpriteList = blockSO.BlockSpriteList;

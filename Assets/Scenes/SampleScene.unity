@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c54efc48bcd764a84a87dfa890198d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockHolder: {fileID: 580111308}
   pfBlock: {fileID: 9172145241263933864, guid: c2e29d6d0ddbf64438ae9e97e90d0e8f, type: 3}
+  BlockHolder: {fileID: 580111308}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

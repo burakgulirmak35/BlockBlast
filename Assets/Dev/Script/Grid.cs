@@ -36,10 +36,17 @@ public class Grid : MonoBehaviour
         return linked;
     }
 
+    public void ClearLink()
+    {
+        LinkList = new List<Grid>();
+        linked = false;
+    }
+
     public void PopBlock()
     {
         if (isEmpty()) { return; }
         block.gameObject.SetActive(false);
+        PoolManager.Instance.PutBackToPool(PoolTypes.BlockPool, block.gameObject);
         block = null;
     }
 
@@ -61,6 +68,8 @@ public class Grid : MonoBehaviour
     public void Clear()
     {
         block = null;
+        linked = false;
+        LinkList.Clear();
     }
 
     private List<Grid> LinkList = new List<Grid>();
@@ -85,7 +94,9 @@ public class Grid : MonoBehaviour
 
     public void FallBlock()
     {
-        transform.DOMoveY(yPos, BlockFallingSpeed * (block.transform.position.y - yPos));
+        if (isEmpty()) { return; }
+        block.transform.DOMove(transform.position, BlockFallingSpeed * (block.transform.position.y - transform.position.y)).SetEase(Ease.Linear);
     }
+
 }
 

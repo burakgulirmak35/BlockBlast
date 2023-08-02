@@ -33,11 +33,22 @@ public class PoolManager : MonoBehaviour
         {
             case PoolTypes.BlockPool:
                 tempObject = blockPool.Dequeue();
-                blockPool.Enqueue(tempObject);
                 return tempObject;
             default:
                 tempObject = null;
                 return tempObject;
+        }
+    }
+
+    public void PutBackToPool(PoolTypes type, GameObject go)
+    {
+        switch (type)
+        {
+            case PoolTypes.BlockPool:
+                blockPool.Enqueue(go);
+                break;
+            default:
+                break;
         }
     }
 }
