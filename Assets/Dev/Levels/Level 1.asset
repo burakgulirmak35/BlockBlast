@@ -17,8 +17,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81a67331f0b4155448d16958b79bfa88, type: 2}
   - {fileID: 11400000, guid: 2a59b7d05270c714699d6a73df75f201, type: 2}
   - {fileID: 11400000, guid: 792b36eff80e64a4094c205c7ad2a8eb, type: 2}
-  width: 5
-  height: 8
+  width: 8
+  height: 5
   moveAmount: 20
   targetScore: 10000
   BoardOffset: {x: 0, y: -2}

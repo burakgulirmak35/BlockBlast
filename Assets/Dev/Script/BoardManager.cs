@@ -106,13 +106,22 @@ public class BoardManager : MonoBehaviour
         return levelSO.BlockList[rnd];
     }
 
-    private Block SpawnNewBlock(int x, int y, Vector3 offset)
+    private Block SpawnNewBlock(int x, int y, Vector3 offset, BlockSO blockSO)
     {
         Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
-        newBlock.SetBlockSO(GetRandomBlock());
+        newBlock.SetBlockSO(blockSO);
         newBlock.transform.position = GridList[x, y].transform.position + offset;
         newBlock.gameObject.SetActive(true);
         return newBlock;
+    }
+
+    private BlockSO GetSameBlock(int x)
+    {
+        for (int i = 0; i < boardHeight; i++)
+        {
+            if (!GridList[x, i].isEmpty()) { isDeadLock = false; return GridList[x, i].GetBlock().GetBlockSO(); }
+        }
+        return GetRandomBlock();
     }
 
     //-------------------------------------
@@ -136,6 +145,7 @@ public class BoardManager : MonoBehaviour
         ReplaceBlocks();
         MoveBlocks();
         yield return new WaitForSeconds(.2f);
+        CheckAllMatch3Links();
         SpawnNewBlocks();
         MoveBlocks();
         yield return new WaitForSeconds(.4f);
@@ -153,7 +163,7 @@ public class BoardManager : MonoBehaviour
                 if (GridList[x, y].isEmpty())
                 {
                     emptyBlockCount++;
-                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1, new Vector3(0, emptyBlockCount, 0)));
+                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1, new Vector3(0, emptyBlockCount, 0), isDeadLock ? GetSameBlock(x) : GetRandomBlock()));
                 }
             }
         }
@@ -191,9 +201,11 @@ public class BoardManager : MonoBehaviour
 
     //-------------------------------------
 
+    private bool isDeadLock;
     private List<Grid> linkedGridList = new List<Grid>();
     private void CheckAllMatch3Links()
     {
+        isDeadLock = true;
         foreach (Grid grid in GridList)
         {
             grid.ClearLink();
@@ -203,12 +215,13 @@ public class BoardManager : MonoBehaviour
         {
             for (int y = 0; y < boardHeight; y++)
             {
-                if (!GridList[x, y].isLinked())
+                if (!GridList[x, y].isLinked() && !GridList[x, y].isEmpty())
                 {
                     linkedGridList.Clear();
                     CheckMatch3Link(x, y);
                     if (linkedGridList.Count > 1)
                     {
+                        isDeadLock = false;
                         foreach (Grid grid in linkedGridList)
                         {
                             grid.SetLinkList(linkedGridList);
@@ -232,22 +245,22 @@ public class BoardManager : MonoBehaviour
 
         BlockSO blockSO = GetBlockSO(x, y);
 
-        if (IsValidPosition(x + 1, y) && (GetBlockSO(x + 1, y) == blockSO))
+        if (IsValidPosition(x + 1, y) && !GridList[x + 1, y].isEmpty() && (GetBlockSO(x + 1, y) == blockSO))
         {
             CheckMatch3Link(x + 1, y);
         }
 
-        if (IsValidPosition(x - 1, y) && (GetBlockSO(x - 1, y) == blockSO))
+        if (IsValidPosition(x - 1, y) && !GridList[x - 1, y].isEmpty() && (GetBlockSO(x - 1, y) == blockSO))
         {
             CheckMatch3Link(x - 1, y);
         }
 
-        if (IsValidPosition(x, y + 1) && (GetBlockSO(x, y + 1) == blockSO))
+        if (IsValidPosition(x, y + 1) && !GridList[x, y + 1].isEmpty() && (GetBlockSO(x, y + 1) == blockSO))
         {
             CheckMatch3Link(x, y + 1);
         }
 
-        if (IsValidPosition(x, y - 1) && (GetBlockSO(x, y - 1) == blockSO))
+        if (IsValidPosition(x, y - 1) && !GridList[x, y - 1].isEmpty() && (GetBlockSO(x, y - 1) == blockSO))
         {
             CheckMatch3Link(x, y - 1);
         }
