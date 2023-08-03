@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
     private void Event_OnOutMoves(object sender, System.EventArgs e)
     {
         panel_WinLose.SetActive(true);
-        txt_WinLose.text = "YOU LOSE!";
+        txt_WinLose.text = "Out of Moves!";
     }
 
     private void Event_OnWin(object sender, System.EventArgs e)

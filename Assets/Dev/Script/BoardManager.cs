@@ -351,8 +351,7 @@ public class BoardManager : MonoBehaviour
 
     //-----------------------
 
-    // gerek kalmadi ama kullanılabilir
-    //kitlenirse blocklar, degistir
+    //kitlenirse blocklari degistir
     private void ShuffleBoard()
     {
         foreach (Grid grid in GridList)
