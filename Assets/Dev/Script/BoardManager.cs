@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 public enum State
 {
@@ -46,13 +47,13 @@ public class BoardManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
             if (state.Equals(State.WaitingForUser))
             {
                 RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-                if (rayHit.collider.GetComponent<IClickable>() != null)
-                {
-                    rayHit.collider.GetComponent<IClickable>().Click();
-                }
+                if (!rayHit) { return; }
+                IClickable clickable = rayHit.collider.GetComponent<IClickable>();
+                if (clickable != null) { clickable.Click(); }
             }
         }
     }
