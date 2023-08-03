@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Grid : MonoBehaviour
+public class Grid : MonoBehaviour, IClickable
 {
     [SerializeField] private float BlockFallingSpeed;
     private Block block;
@@ -82,9 +82,8 @@ public class Grid : MonoBehaviour
         block.SetSprite(_linklist.Count);
     }
 
-    private void OnMouseDown()
+    public void Click()
     {
-        if (!BoardManager.Instance.state.Equals(State.WaitingForUser)) { Debug.Log("BoardBusy"); return; }
         if (isLinked())
         {
             BoardManager.Instance.PopLink(LinkList);

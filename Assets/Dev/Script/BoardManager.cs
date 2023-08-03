@@ -42,6 +42,21 @@ public class BoardManager : MonoBehaviour
         Setup();
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (state.Equals(State.WaitingForUser))
+            {
+                RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
+                if (rayHit.collider.GetComponent<IClickable>() != null)
+                {
+                    rayHit.collider.GetComponent<IClickable>().Click();
+                }
+            }
+        }
+    }
+
     private void SetLevelSO(LevelSO _levelSO)
     {
         levelSO = _levelSO;
