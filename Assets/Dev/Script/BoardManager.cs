@@ -48,6 +48,7 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) { return; }
             if (state.Equals(State.WaitingForUser))
             {
                 RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
