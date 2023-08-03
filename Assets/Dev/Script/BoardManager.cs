@@ -96,7 +96,7 @@ public class BoardManager : MonoBehaviour
         Block newBlock = pool.GetFromPool(PoolTypes.BlockPool).GetComponent<Block>();
         newBlock.transform.position = new Vector2(xPos, yPos);
         newBlock.SetBlockSO(GetRandomBlock());
-        GridList[xPos, yPos].SetBlock(newBlock);
+        GridList[xPos, yPos].SetBlock(newBlock, true);
         newBlock.gameObject.SetActive(true);
     }
 
@@ -115,6 +115,7 @@ public class BoardManager : MonoBehaviour
         return newBlock;
     }
 
+    //oyunun kitlenmesini önlemek için!
     private BlockSO GetSameBlock(int x)
     {
         for (int i = 0; i < boardHeight; i++)
@@ -143,12 +144,10 @@ public class BoardManager : MonoBehaviour
         }
         yield return new WaitForSeconds(0.2f);
         ReplaceBlocks();
-        MoveBlocks();
-        yield return new WaitForSeconds(.2f);
         CheckAllMatch3Links();
         SpawnNewBlocks();
         MoveBlocks();
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.2f);
         CheckAllMatch3Links();
         CheckGameStatus();
     }
@@ -163,7 +162,7 @@ public class BoardManager : MonoBehaviour
                 if (GridList[x, y].isEmpty())
                 {
                     emptyBlockCount++;
-                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1, new Vector3(0, emptyBlockCount, 0), isDeadLock ? GetSameBlock(x) : GetRandomBlock()));
+                    GridList[x, y].SetBlock(SpawnNewBlock(x, boardHeight - 1, new Vector3(0, emptyBlockCount, 0), isDeadLock ? GetSameBlock(x) : GetRandomBlock()), false);
                 }
             }
         }
@@ -181,7 +180,7 @@ public class BoardManager : MonoBehaviour
                     {
                         if (!GridList[x, i].isEmpty())
                         {
-                            GridList[x, y].SetBlock(GridList[x, i].GetBlock());
+                            GridList[x, y].SetBlock(GridList[x, i].GetBlock(), false);
                             GridList[x, i].Clear();
                             break;
                         }
@@ -347,5 +346,23 @@ public class BoardManager : MonoBehaviour
         {
             state = State.WaitingForUser;
         }
+    }
+
+
+    //-----------------------
+
+    // gerek kalmadi ama kullanılabilir
+    //kitlenirse blocklar, degistir
+    private void ShuffleBoard()
+    {
+        foreach (Grid grid in GridList)
+        {
+            if (!grid.isEmpty())
+            {
+                grid.GetBlock().SetBlockSO(GetRandomBlock());
+            }
+        }
+        CheckAllMatch3Links();
+        if (isDeadLock) { ShuffleBoard(); }
     }
 }

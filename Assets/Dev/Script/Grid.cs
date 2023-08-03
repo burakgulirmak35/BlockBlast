@@ -9,6 +9,7 @@ public class Grid : MonoBehaviour, IClickable
     private Block block;
     private int xPos, yPos;
     private bool linked;
+    private bool placed;
 
     public void SetPos(int _x, int _y)
     {
@@ -52,9 +53,10 @@ public class Grid : MonoBehaviour, IClickable
     }
 
 
-    public void SetBlock(Block _block)
+    public void SetBlock(Block _block, bool _placed)
     {
         block = _block;
+        placed = _placed;
     }
 
     public Block GetBlock()
@@ -98,7 +100,10 @@ public class Grid : MonoBehaviour, IClickable
     public void FallBlock()
     {
         if (isEmpty()) { return; }
-        block.transform.DOMove(transform.position, BlockFallingSpeed * Mathf.Abs(block.transform.position.y - transform.position.y)).SetEase(Ease.Linear);
+        if (placed) { return; }
+        float fallingTime = BlockFallingSpeed * Mathf.Abs(block.transform.position.y - transform.position.y);
+        block.transform.DOMove(transform.position, fallingTime).SetEase(Ease.OutBounce);
+        placed = true;
     }
 
 }

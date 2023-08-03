@@ -208,4 +208,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcf4c706bff1bf4ea9d56bbd3638feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockFallingSpeed: 0.2
+  BlockFallingSpeed: 0.25
