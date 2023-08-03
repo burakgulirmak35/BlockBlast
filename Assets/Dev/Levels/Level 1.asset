@@ -17,9 +17,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81a67331f0b4155448d16958b79bfa88, type: 2}
   - {fileID: 11400000, guid: 2a59b7d05270c714699d6a73df75f201, type: 2}
   - {fileID: 11400000, guid: 792b36eff80e64a4094c205c7ad2a8eb, type: 2}
-  - {fileID: 11400000, guid: d20c40ace8c44924fb7d82a404ed85cf, type: 2}
-  - {fileID: 11400000, guid: 984ca6cfc4d448140b00c65b54a8a51c, type: 2}
-  width: 10
-  height: 12
-  moveAmount: 0
-  targetScore: 0
+  width: 5
+  height: 8
+  moveAmount: 20
+  targetScore: 10000
+  BoardOffset: {x: 0, y: -4}
+  ColorWaypoints: 050000000700000009000000

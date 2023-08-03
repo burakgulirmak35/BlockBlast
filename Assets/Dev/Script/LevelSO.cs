@@ -11,4 +11,8 @@ public class LevelSO : ScriptableObject
     [Space]
     public int moveAmount;
     public int targetScore;
+    [Space]
+    public Vector2 BoardOffset;
+    [Header("ColorRules")]
+    public int[] ColorWaypoints;
 }

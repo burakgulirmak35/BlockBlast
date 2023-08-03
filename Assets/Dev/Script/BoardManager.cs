@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum State
 {
     Setup,
     Busy,
     WaitingForUser,
+    End,
 }
 
 public class BoardManager : MonoBehaviour
 {
+    public event EventHandler OnMoveUsed;
+    public event EventHandler OnScoreChanged;
+    public event EventHandler OnOutOfMoves;
+    public event EventHandler OnWin;
+
     public static BoardManager Instance { get; private set; }
     [SerializeField] private Transform pfGrid;
     [SerializeField] private List<LevelSO> levelList;
@@ -20,6 +27,7 @@ public class BoardManager : MonoBehaviour
     private int boardHeight;
     private int score;
     private int moveCount;
+    private int targetScore;
 
     private LevelSO levelSO;
     private PoolManager pool;
@@ -41,6 +49,9 @@ public class BoardManager : MonoBehaviour
         boardHeight = levelSO.height;
         GridList = new Grid[boardWidth, boardHeight];
         pool.GenerateBlockPool(boardWidth * boardHeight * 2);
+
+        moveCount = levelSO.moveAmount;
+        targetScore = levelSO.targetScore;
     }
 
     private void Setup()
@@ -53,7 +64,7 @@ public class BoardManager : MonoBehaviour
                 CreateBlock(width, height);
             }
         }
-        transform.position = new Vector2(-(boardWidth / 2f), -(boardHeight / 2f));
+        transform.position = new Vector2(-(boardWidth / 2) + 0.5f, -(boardHeight / 2) + 0.5f) + levelSO.BoardOffset;
         CheckAllMatch3Links();
         state = State.WaitingForUser;
     }
@@ -74,7 +85,7 @@ public class BoardManager : MonoBehaviour
 
     private BlockSO GetRandomBlock()
     {
-        int rnd = Random.Range(0, levelSO.BlockList.Count);
+        int rnd = UnityEngine.Random.Range(0, levelSO.BlockList.Count);
         return levelSO.BlockList[rnd];
     }
 
@@ -96,11 +107,13 @@ public class BoardManager : MonoBehaviour
 
     private IEnumerator PopLinkTimer(List<Grid> _linkList)
     {
+        UseMove();
         state = State.Busy;
         foreach (Grid item in _linkList)
         {
             item.PopBlock();
             yield return new WaitForSeconds(0.1f);
+            BoardManager.Instance.AddScore(100);
         }
         yield return new WaitForSeconds(0.2f);
         ReplaceBlocks();
@@ -110,7 +123,7 @@ public class BoardManager : MonoBehaviour
         MoveBlocks();
         yield return new WaitForSeconds(.4f);
         CheckAllMatch3Links();
-        state = State.WaitingForUser;
+        CheckGameStatus();
     }
 
     private void SpawnNewBlocks()
@@ -257,4 +270,52 @@ public class BoardManager : MonoBehaviour
     }
 
     //-----------------
+
+    private void UseMove()
+    {
+        moveCount--;
+        OnMoveUsed?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+        OnScoreChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public int GetTargetScore()
+    {
+        return targetScore;
+    }
+
+    public int GetMoveCount()
+    {
+        return moveCount;
+    }
+
+    public int GetColorWayPoint(int id)
+    {
+        return levelSO.ColorWaypoints[id];
+    }
+
+    public void CheckGameStatus()
+    {
+        if (score >= targetScore)
+        {
+            OnWin?.Invoke(this, EventArgs.Empty);
+        }
+        else if (moveCount <= 0)
+        {
+            OnOutOfMoves?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            state = State.WaitingForUser;
+        }
+    }
 }

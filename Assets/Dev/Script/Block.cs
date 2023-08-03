@@ -24,21 +24,21 @@ public class Block : MonoBehaviour
 
     public void SetSprite(int linkCount)
     {
-        if (linkCount < 5)
+        if (linkCount < BoardManager.Instance.GetColorWayPoint(0))
         {
             BlockSprite.sprite = blockSO.BlockSpriteList[0];
         }
-        else if (linkCount < 8)
+        else if (linkCount < BoardManager.Instance.GetColorWayPoint(1))
         {
             BlockSprite.sprite = blockSO.BlockSpriteList[1];
         }
-        else if (linkCount < 10)
+        else if (linkCount < BoardManager.Instance.GetColorWayPoint(2))
         {
             BlockSprite.sprite = blockSO.BlockSpriteList[2];
         }
         else
         {
-            BlockSprite.sprite = blockSO.BlockSpriteList[2];
+            BlockSprite.sprite = blockSO.BlockSpriteList[3];
         }
     }
 

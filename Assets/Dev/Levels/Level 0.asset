@@ -19,7 +19,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 792b36eff80e64a4094c205c7ad2a8eb, type: 2}
   - {fileID: 11400000, guid: d20c40ace8c44924fb7d82a404ed85cf, type: 2}
   - {fileID: 11400000, guid: 984ca6cfc4d448140b00c65b54a8a51c, type: 2}
-  width: 10
-  height: 12
-  moveAmount: 10
-  targetScore: 10
+  width: 12
+  height: 10
+  moveAmount: 20
+  targetScore: 10000
+  BoardOffset: {x: 0, y: -4}
+  ColorWaypoints: 05000000080000000b000000

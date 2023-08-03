@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour
 
     [Header("----------------------------")]
     [SerializeField] private Sound PopSound;
+    [Header("----------------------------")]
+    [SerializeField] private float SoundVolume;
+    [SerializeField] private float MusicVolume;
 
     private void Awake()
     {
@@ -33,10 +36,20 @@ public class SoundManager : MonoBehaviour
         audioSource.loop = false;
         audioSource.dopplerLevel = 0;
         audioSource.reverbZoneMix = 0;
-        audioSource.volume = Random.Range(audio.minVolume, audio.maxVolume);
+        audioSource.volume = Random.Range(audio.minVolume, audio.maxVolume) * SoundVolume;
         audioSource.pitch = Random.Range(audio.minPitch, audio.maxPitch);
         audioSource.Play();
         Destroy(audioSource, 1f);
+    }
+
+    public void SetSoundVolume(float value)
+    {
+        SoundVolume = value;
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        MusicVolume = value;
     }
 
 }
