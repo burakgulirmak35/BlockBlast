@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("----------------------------")]
     [SerializeField] private Sound PopSound;
+    [SerializeField] private Sound ShakeSound;
     [Header("----------------------------")]
     [SerializeField] private float SoundVolume;
     [SerializeField] private float MusicVolume;
@@ -23,7 +24,10 @@ public class SoundManager : MonoBehaviour
         {
             case SoundName.PopSound:
                 Play(PopSound);
-                break; ;
+                break;
+            case SoundName.ShakeSound:
+                Play(ShakeSound);
+                break;
             default:
                 break;
         }
@@ -56,7 +60,7 @@ public class SoundManager : MonoBehaviour
 
 public enum SoundName
 {
-    PopSound,
+    PopSound, ShakeSound
 }
 
 [System.Serializable]

@@ -10,6 +10,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private GameObject pfBlock;
     [SerializeField] private Transform BlockHolder;
     private Queue<GameObject> blockPool = new Queue<GameObject>();
+
     private GameObject tempObject;
 
     private void Awake()

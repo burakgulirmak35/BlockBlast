@@ -113,7 +113,7 @@ public class BoardManager : MonoBehaviour
         {
             item.PopBlock();
             yield return new WaitForSeconds(0.1f);
-            BoardManager.Instance.AddScore(100);
+            AddScore(100);
         }
         yield return new WaitForSeconds(0.2f);
         ReplaceBlocks();
@@ -277,7 +277,7 @@ public class BoardManager : MonoBehaviour
         OnMoveUsed?.Invoke(this, EventArgs.Empty);
     }
 
-    public void AddScore(int amount)
+    private void AddScore(int amount)
     {
         score += amount;
         OnScoreChanged?.Invoke(this, EventArgs.Empty);

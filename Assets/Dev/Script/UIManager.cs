@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI txt_Goal;
     [SerializeField] private TextMeshProUGUI txt_Score;
     [SerializeField] private TextMeshProUGUI txt_Moves;
@@ -23,6 +24,8 @@ public class UIManager : MonoBehaviour
     private BoardManager boardManager;
     private void Start()
     {
+        Instance = this;
+
         boardManager = BoardManager.Instance;
         boardManager.OnMoveUsed += Event_OnMoveUsed;
         boardManager.OnScoreChanged += Event_OnScoreChanged;
@@ -122,6 +125,11 @@ public class UIManager : MonoBehaviour
             SoundManager.Instance.SetSoundVolume(1);
             PlayerPrefs.SetInt("isSound", 0);
         }
+    }
+
+    public Vector2 GetScorePos()
+    {
+        return txt_Score.transform.position;
     }
 
 }

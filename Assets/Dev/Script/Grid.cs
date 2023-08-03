@@ -51,6 +51,7 @@ public class Grid : MonoBehaviour
         block = null;
     }
 
+
     public void SetBlock(Block _block)
     {
         block = _block;
@@ -90,6 +91,7 @@ public class Grid : MonoBehaviour
         }
         else
         {
+            SoundManager.Instance.PlaySound(SoundName.ShakeSound);
             block.Shake();
         }
     }
