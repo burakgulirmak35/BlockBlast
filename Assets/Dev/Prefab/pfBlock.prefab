@@ -82,7 +82,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &9172145241263933864
 GameObject:
@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlockSprite: {fileID: 978356791860052757}
-  blockSO: {fileID: 0}
 --- !u!95 &392936313263620453
 Animator:
   serializedVersion: 5

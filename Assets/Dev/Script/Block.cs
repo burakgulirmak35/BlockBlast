@@ -5,7 +5,6 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer BlockSprite;
-    [SerializeField]
     private BlockSO blockSO;
     private List<Sprite> BlockSpriteList = new List<Sprite>();
     private Animator BlockAnim;
